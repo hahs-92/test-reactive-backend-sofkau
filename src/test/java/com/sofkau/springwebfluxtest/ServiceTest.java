@@ -50,4 +50,15 @@ public class ServiceTest {
                 .expectComplete()
                 .verify();
     }
+
+    @Test
+    void testTodosFiltroError() {
+        Flux<String> source = service.getAllFilterError();
+        StepVerifier
+                .create(source)
+                .expectNextCount(4)
+                .expectErrorMatches(throwable -> throwable instanceof IllegalArgumentException &&
+                        throwable.getMessage().equals("Mensaje de Error")
+                ).verify();
+    }
 }

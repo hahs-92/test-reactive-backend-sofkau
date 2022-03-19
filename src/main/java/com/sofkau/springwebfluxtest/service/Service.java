@@ -25,5 +25,15 @@ public class Service {
                 .filter(name -> name.length() == 4)
                 .map(String::toUpperCase);
     }
+
+    public Flux<String> getAllFilterError() {
+        Flux<String> source = Flux.just("John", "Monica", "Mark", "Cloe", "Frank", "Casper", "Olivia", "Emily", "Cate")
+                .filter(name -> name.length() == 4)
+                .map(String::toUpperCase);
+
+        return source.concatWith(
+                Mono.error(new IllegalArgumentException("Mensaje de Error"))
+        );
+    }
 }
 
