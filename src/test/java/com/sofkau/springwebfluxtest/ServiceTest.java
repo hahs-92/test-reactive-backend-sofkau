@@ -61,4 +61,15 @@ public class ServiceTest {
                         throwable.getMessage().equals("Mensaje de Error")
                 ).verify();
     }
+
+    @Test
+    void testPersonalityPublisher() {
+        Flux<Integer> source = service.getPersonalityPublisher();
+        StepVerifier.create(source)
+                .expectNext(2)
+                .expectComplete()
+                .verifyThenAssertThat()
+                .hasDropped(4)
+                .tookLessThan(Duration.ofMillis(1050));
+    }
 }
