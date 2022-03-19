@@ -38,4 +38,16 @@ public class ServiceTest {
                 .expectNext("Ekko")
                 .thenAwait(Duration.ofSeconds(1)).verifyComplete();
     }
+
+    @Test
+    void testTodosFiltro() {
+        Flux<String> source = service.getAllFilter();
+        StepVerifier
+                .create(source)
+                .expectNext("JOHN")
+                .expectNextMatches(name -> name.startsWith("MA"))
+                .expectNext("CLOE", "CATE")
+                .expectComplete()
+                .verify();
+    }
 }
